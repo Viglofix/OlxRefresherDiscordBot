@@ -16,25 +16,33 @@ public class CommandDebesta : BaseCommandModule {
         var path = Path.Combine(baseDirectory, ConfigFileName);
         string jsonContent = string.Empty;
 
-        using (var fileStream = new FileStream(path, FileMode.Open))
+        try
         {
-            using (var streamReader = new StreamReader(fileStream))
+            using (var fileStream = new FileStream(path, FileMode.Open))
             {
-                jsonContent = await streamReader.ReadToEndAsync();
+                using (var streamReader = new StreamReader(fileStream))
+                {
+                    jsonContent = await streamReader.ReadToEndAsync();
+                }
             }
         }
+        catch(Exception ex) { }
 
         var deserializedObj = JsonSerializer.Deserialize<ConfigJsonChannel>(jsonContent);
         deserializedObj.Channel = number;
 
-        using (var fs = new FileStream(path, FileMode.Open))
+        try
         {
-            using (var sr = new StreamWriter(fs))
+            using (var fs = new FileStream(path, FileMode.Open))
             {
-                var serializedObject = JsonSerializer.Serialize(deserializedObj);
-                await sr.WriteAsync(serializedObject);
+                using (var sr = new StreamWriter(fs))
+                {
+                    var serializedObject = JsonSerializer.Serialize(deserializedObj);
+                    await sr.WriteAsync(serializedObject);
+                }
             }
         }
+        catch(Exception ex) { }
         await ctx.Channel.SendMessageAsync(deserializedObj.Channel.ToString()).ConfigureAwait(false);
 
     }

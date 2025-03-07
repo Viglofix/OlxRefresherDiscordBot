@@ -8,6 +8,7 @@ using OlxRefresherDiscordBot.CLI.Services.Business.AuthToken;
 using DSharpPlus;
 using OlxRefresherDiscordBot.CLI.Services.DataAccess.Json;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace OlxRefresherDiscordBot.CLI;
 public class Bot
@@ -94,13 +95,17 @@ public class Bot
 
                 string jsonContent = string.Empty;
 
-                using (var fileStream = new FileStream(pathChannel, FileMode.Open))
+                try
                 {
-                    using (var streamReader = new StreamReader(fileStream))
+                    using (var fileStream = new FileStream(pathChannel, FileMode.Open))
                     {
-                        jsonContent = await streamReader.ReadToEndAsync();
+                        using (var streamReader = new StreamReader(fileStream))
+                        {
+                            jsonContent = await streamReader.ReadToEndAsync();
+                        }
                     }
                 }
+                catch(Exception ex) { }
 
                 var deserializedChannel = JsonSerializer.Deserialize<ConfigJsonChannel>(jsonContent);
                 var channelId = deserializedChannel.Channel;
