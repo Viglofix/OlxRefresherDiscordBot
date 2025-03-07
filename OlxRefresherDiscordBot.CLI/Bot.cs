@@ -16,7 +16,6 @@ public class Bot
     private readonly ContractInteractivityConfigurationService _interactivityConfigurationService;
     private readonly ICommandsNextConfigurationService _commandsNextConfigurationService;
     private readonly IAuthorizationJson _authorizationJson;
-    private readonly object _lockObject = new();
 
     public CommandsNextExtension? commandsNext { get; private set; }
     public Bot(IDiscordClientService discordClientService, ContractInteractivityConfigurationService interactivityConfigurationService,ICommandsNextConfigurationService commandsNextConfigurationService,IAuthorizationJson authorizationJson)
