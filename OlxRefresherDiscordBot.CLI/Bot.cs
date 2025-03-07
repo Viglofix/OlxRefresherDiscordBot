@@ -16,6 +16,8 @@ public class Bot
     private readonly ContractInteractivityConfigurationService _interactivityConfigurationService;
     private readonly ICommandsNextConfigurationService _commandsNextConfigurationService;
     private readonly IAuthorizationJson _authorizationJson;
+    private readonly object _lockObject = new();
+
     public CommandsNextExtension? commandsNext { get; private set; }
     public Bot(IDiscordClientService discordClientService, ContractInteractivityConfigurationService interactivityConfigurationService,ICommandsNextConfigurationService commandsNextConfigurationService,IAuthorizationJson authorizationJson)
     {
@@ -86,6 +88,49 @@ public class Bot
         {
             while (true)
             {
+                // config Channel START
+                string ConfigFileNameChannel = "configChannel.json";
+                var baseDirectoryChannel = AppContext.BaseDirectory;
+                var pathChannel = Path.Combine(baseDirectoryChannel, ConfigFileNameChannel);
+
+                string jsonContent = string.Empty;
+
+                using (var fileStream = new FileStream(pathChannel, FileMode.Open))
+                {
+                    using (var streamReader = new StreamReader(fileStream))
+                    {
+                        jsonContent = await streamReader.ReadToEndAsync();
+                    }
+                }
+
+                var deserializedChannel = JsonSerializer.Deserialize<ConfigJsonChannel>(jsonContent);
+                var channelId = deserializedChannel.Channel;
+
+                while (channelId == 0)
+                {
+                    await Task.Delay(10000);
+                    try
+                    {
+                        using (var fileStream = new FileStream(pathChannel, FileMode.Open))
+                        {
+                            using (var streamReader = new StreamReader(fileStream))
+                            {
+                                jsonContent = await streamReader.ReadToEndAsync();
+                            }
+                        }
+                        deserializedChannel = JsonSerializer.Deserialize<ConfigJsonChannel>(jsonContent);
+                        channelId = deserializedChannel.Channel;
+                    }
+                    catch (IOException ex)
+                    {
+
+                    }
+                }
+
+
+                // config Channel END
+
+
                 var randomIndex = new Random().Next(listOfProxies.Count());
                 string randomProxy = listOfProxies[randomIndex];
 
@@ -123,7 +168,6 @@ public class Bot
                .Where(x => x.promotion.top_ad == false)
                .FirstOrDefault()!.url;
 
-                jsonObj.LatestCard = url;
                 if (url == jsonObj.LatestCard)
                 {
                     await Task.Delay(300000);
@@ -160,14 +204,14 @@ public class Bot
 
                 var imageFullHD = $"{image};s={2048}x{1080}";
 
-                await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(1187417997485289615), "**-----------top--------------------**");
-                await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(1187417997485289615), "| **Nowa Oferta w kategorii Lublin ** ");
-                await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(1187417997485289615),  $"| **link do oferty:** {url}");
-                await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(1187417997485289615),  "| **CENA: **" + price);
-                await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(1187417997485289615), $"| **link do zdjęcia:** {imageFullHD}");
-                await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(1187417997485289615), "**-----------bottom--------------------**");
-                await Task.Delay(300000);
+                await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "**-----------top--------------------**");
+                await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "| **Nowa Oferta w kategorii Lublin ** ");
+                await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(channelId),  $"| **link do oferty:** {url}");
+                await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(channelId),  "| **CENA: **" + price);
+                await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(channelId), $"| **link do zdjęcia:** {imageFullHD}");
+                await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "**-----------bottom--------------------**");
 
+                await Task.Delay(300000);
             }
         });
 
