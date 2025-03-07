@@ -123,7 +123,7 @@ public class Bot
                .Where(x => x.promotion.top_ad == false)
                .FirstOrDefault()!.url;
 
-                jsonObj.LatestCard = string.Empty;
+                jsonObj.LatestCard = url;
                 if (url == jsonObj.LatestCard)
                 {
                     await Task.Delay(300000);
