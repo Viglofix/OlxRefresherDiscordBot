@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "OlxRefresherDiscordBot.CLI": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
