@@ -126,7 +126,7 @@ public class Bot
                 jsonObj.LatestCard = string.Empty;
                 if (url == jsonObj.LatestCard)
                 {
-                    await Task.Delay(10000);
+                    await Task.Delay(300000);
                     continue;
                 }
                 else
@@ -166,7 +166,7 @@ public class Bot
                 await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(1187417997485289615),  "| **CENA: **" + price);
                 await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(1187417997485289615), $"| **link do zdjęcia:** {imageFullHD}");
                 await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(1187417997485289615), "**-----------bottom--------------------**");
-                await Task.Delay(10000);
+                await Task.Delay(300000);
 
             }
         });
