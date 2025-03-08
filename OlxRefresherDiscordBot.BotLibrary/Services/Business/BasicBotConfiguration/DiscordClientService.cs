@@ -1,8 +1,8 @@
 ﻿using DSharpPlus;
 using Microsoft.Extensions.Logging;
-using OlxRefresherDiscordBot.CLI.Services.Business.AuthToken;
+using OlxRefresherDiscordBot.BotLibrary.Services.Business.AuthToken;
 
-namespace OlxRefresherDiscordBot.CLI.Services.Business.BasicBotConfiguration;
+namespace OlxRefresherDiscordBot.BotLibrary.Services.Business.BasicBotConfiguration;
 public class DiscordClientService : IDiscordClientService
 {
     private readonly IAuthorizationJson _authorizationJson;

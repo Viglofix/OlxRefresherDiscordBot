@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace OlxRefresherDiscordBot.CLI.Services.DataAccess;
+namespace OlxRefresherDiscordBot.BotLibrary.Services.DataAccess.Model;
 
 public class OfferData
 {

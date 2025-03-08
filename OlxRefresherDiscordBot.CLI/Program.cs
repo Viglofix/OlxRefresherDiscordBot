@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OlxRefresherDiscordBot.CLI;
-using OlxRefresherDiscordBot.CLI.Services.Business.AuthToken;
-using OlxRefresherDiscordBot.CLI.Services.Business.BasicBotConfiguration;
+using OlxRefresherDiscordBot.BotLibrary.Services.Business.AuthToken;
+using OlxRefresherDiscordBot.BotLibrary.Services.Business.BasicBotConfiguration;
+using OlxRefresherDiscordBot.BotLibrary.Bots;
 
 internal class Program
 {
@@ -12,13 +13,15 @@ internal class Program
         services.AddTransient<IDiscordClientService, DiscordClientService>();
         services.AddTransient<ICommandsNextConfigurationService, CommandsNextConfigurationService>();
         services.AddTransient<ContractInteractivityConfigurationService, InteractivityConfigurationService>();
+        services.AddTransient<IBot, LublinIphoneBot>();
 
         var serviceProvider = services.BuildServiceProvider();
 
         Bot bot = new(serviceProvider.GetService<IDiscordClientService>()!
             ,serviceProvider.GetService<ContractInteractivityConfigurationService>()!
             ,serviceProvider.GetService<ICommandsNextConfigurationService>()!
-            ,serviceProvider.GetService<IAuthorizationJson>()!);
+            ,serviceProvider.GetService<IAuthorizationJson>()!,
+            serviceProvider.GetService<IBot>()!);
 
         await bot.RunAsync();
     }

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace OlxRefresherDiscordBot.CLI.Services.DataAccess.Json;
+namespace OlxRefresherDiscordBot.BotLibrary.Services.DataAccess.Json;
 public struct ConfigJsonBot
 {
     [JsonPropertyName("latest_card")]

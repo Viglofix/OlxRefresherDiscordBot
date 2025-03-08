@@ -1,7 +1,7 @@
 ﻿using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 
-namespace OlxRefresherDiscordBot.CLI.Services.Business.BasicBotConfiguration;
+namespace OlxRefresherDiscordBot.BotLibrary.Services.Business.BasicBotConfiguration;
 public class InteractivityConfigurationService : ContractInteractivityConfigurationService
 {
     private readonly IDiscordClientService _discordClientService;
