@@ -1,7 +1,8 @@
-﻿using DSharpPlus.CommandsNext;
-using OlxRefresherDiscordBot.CLI.Services.Business.AuthToken;
+﻿using DSharpPlus;
+using DSharpPlus.CommandsNext;
+using OlxRefresherDiscordBot.BotLibrary.Services.Business.AuthToken;
 
-namespace OlxRefresherDiscordBot.CLI.Services.Business.BasicBotConfiguration;
+namespace OlxRefresherDiscordBot.BotLibrary.Services.Business.BasicBotConfiguration;
 public class CommandsNextConfigurationService : ICommandsNextConfigurationService
 {
     private readonly IAuthorizationJson _authorizationJson;

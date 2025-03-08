@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OlxRefresherDiscordBot.CLI", "OlxRefresherDiscordBot.CLI\OlxRefresherDiscordBot.CLI.csproj", "{90512604-D30F-42F3-859C-11CA4BAD65E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OlxRefresherDiscordBot.BotLibrary", "OlxRefresherDiscordBot.BotLibrary\OlxRefresherDiscordBot.BotLibrary.csproj", "{A4825736-C363-4EEC-AAD8-E5F9CF28EA8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{90512604-D30F-42F3-859C-11CA4BAD65E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90512604-D30F-42F3-859C-11CA4BAD65E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90512604-D30F-42F3-859C-11CA4BAD65E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4825736-C363-4EEC-AAD8-E5F9CF28EA8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4825736-C363-4EEC-AAD8-E5F9CF28EA8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4825736-C363-4EEC-AAD8-E5F9CF28EA8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4825736-C363-4EEC-AAD8-E5F9CF28EA8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
