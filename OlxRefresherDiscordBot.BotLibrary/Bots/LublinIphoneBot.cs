@@ -31,7 +31,6 @@ public class LublinIphoneBot : IBot
         // async to implement
         var jsonObj = JsonSerializer.Deserialize<ConfigJsonBot>(jsonContent);
 
-        // START WORKING SECTION
         ProxyService proxyService = new ProxyService();
         proxyService.AddProxies();
 
@@ -59,7 +58,15 @@ public class LublinIphoneBot : IBot
                 var result = response.Content;
 
                 OfferData? obj = null;
-                obj = JsonSerializer.Deserialize<OfferData>(result!);
+                try
+                {
+                    obj = JsonSerializer.Deserialize<OfferData>(result!);
+                }
+                catch(System.Text.Json.JsonException ex)
+                {
+                    Debug.WriteLine("403 forbidden occured");
+                    continue;
+                }
 
                 var url = obj!.data
                .Where(x => x.promotion.top_ad == false)
@@ -108,10 +115,6 @@ public class LublinIphoneBot : IBot
                 await Task.Delay(150000);
             }
         });
-
-        // END WORKING SECTION
-
-        // await Task.WhenAll(task);
-        await Task.Delay(-1);
+        await Task.WhenAll(task);
     }
 }
