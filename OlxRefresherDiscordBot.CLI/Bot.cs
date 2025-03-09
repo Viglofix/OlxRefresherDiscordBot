@@ -42,5 +42,6 @@ public class Bot
 
         await clinet.ConnectAsync();
         await _bot.BotRunner();
+        await Task.Delay(-1);
     }
 }
