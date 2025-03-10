@@ -6,7 +6,7 @@ using OlxRefresherDiscordBot.BotLibrary.Bots;
 namespace OlxRefresherDiscordBot.CLI;
 public class Bot
 {
-    private const string InitialMessage = "Bot is connected"; 
+    private const string InitialMessage = "Bot is connected version 1.0"; 
     private readonly IDiscordClientService _discordClientService;
     private readonly ContractInteractivityConfigurationService _interactivityConfigurationService;
     private readonly ICommandsNextConfigurationService _commandsNextConfigurationService;
