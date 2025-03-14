@@ -9,6 +9,7 @@ using OlxRefresherDiscordBot.BotLibrary.Services.Business.AuthToken;
 using OlxRefresherDiscordBot.BotLibrary.Services.Business.BasicBotConfiguration;
 using System.Text.Json;
 using OlxRefresherDiscordBot.BotLibrary.Services.DataAccess.Model;
+using DSharpPlus.Entities;
 
 namespace OlxRefresherDiscordBot.BotLibrary.Bots;
 public class LublinIphoneBot : IBot
@@ -36,8 +37,6 @@ public class LublinIphoneBot : IBot
         ProxyService proxyService = new ProxyService();
         proxyService.AddProxies();
 
-        // var task = Task.Run(async () =>
-        // {
         while (true)
         {
             // config Channel START
@@ -64,6 +63,11 @@ public class LublinIphoneBot : IBot
             {
                 obj = JsonSerializer.Deserialize<OfferData>(result!);
             }
+            catch(System.ArgumentNullException ex)
+            {
+                Debug.WriteLine("Argument null exception");
+                continue;
+            }
             catch (System.Text.Json.JsonException ex)
             {
                 Debug.WriteLine("403 forbidden occured");
@@ -74,7 +78,7 @@ public class LublinIphoneBot : IBot
            .Where(x => x.promotion.top_ad == false)
            .FirstOrDefault()!.url;
 
-            if (url == jsonObj.LatestCard)
+            if ("" == jsonObj.LatestCard)
             {
                 await Task.Delay(25000);
                 continue;
@@ -97,6 +101,20 @@ public class LublinIphoneBot : IBot
             .Where(x => x.promotion.top_ad == false)
             .FirstOrDefault()!.Params[0].value.value;
 
+            var title = obj!.data
+             .Where(x => x.promotion.top_ad == false)
+             .FirstOrDefault()!.title;
+
+            DiscordEmbedBuilder? embed = new DiscordEmbedBuilder()
+            {
+                Title = $"** {title} **",
+                Color = new DiscordColor(169, 216, 255),
+            };
+
+            embed.AddField("**Link do oferty** ", url);
+            embed.AddField("**Cena 💵** ", price.ToString() + " PLN");
+
+
             string? image = null!;
             try
             {
@@ -106,32 +124,21 @@ public class LublinIphoneBot : IBot
             }
             catch(System.ArgumentOutOfRangeException ex)
             {
-                await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "**-----------top--------------------**");
-                await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "| **Nowa Oferta w kategorii Lublin ** ");
-                await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(channelId), $"| **link do oferty:** {url}");
-                await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "| **CENA: **" + price);
-                await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "**-----------bottom--------------------**");
+                var em = embed.Build();
+                await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(channelId),em);
+
                 await Task.Delay(25000);
                 continue;
             }
 
-            var imageFullHD = $"{image};s={2048}x{1080}";
+            string? imageFullHDRaw = image.Substring(0,image.IndexOf("{width}x{height}")-0);
+            var imageFullHD = $"{imageFullHDRaw}{1920}x{1080}?format=png";
 
-            await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "**-----------top--------------------**");
-            await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "| **Nowa Oferta w kategorii Lublin ** ");
-            await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(channelId), $"| **link do oferty:** {url}");
-            await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "| **CENA: **" + price);
-            await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(channelId), $"| **link do zdjęcia:** {imageFullHD}");
-            await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(channelId), "**-----------bottom--------------------**");
-
-            /* var request2 = new RestRequest("https://ip.smartproxy.com/json", Method.Get);
-             RestResponse response2 = await restClient.ExecuteAsync(request2);
-             await discordClient!.SendMessageAsync(await discordClient.GetChannelAsync(channelId), response2.Content); */
+            embed.ImageUrl = imageFullHD;
+            var emP = embed.Build();
+            await discordClient.SendMessageAsync(await discordClient.GetChannelAsync(channelId), emP);
 
             await Task.Delay(25000);
-            //    }
-            //});
-            //await Task.WhenAll(task);
         }
     }
 }
