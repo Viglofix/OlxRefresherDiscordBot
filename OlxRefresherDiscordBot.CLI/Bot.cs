@@ -10,23 +10,22 @@ public class Bot
     private readonly IDiscordClientService _discordClientService;
     private readonly ContractInteractivityConfigurationService _interactivityConfigurationService;
     private readonly ICommandsNextConfigurationService _commandsNextConfigurationService;
-    private readonly IAuthorizationJson _authorizationJson;
     private readonly IBot _bot;
+    private readonly IBotCar _botCar;
     public CommandsNextExtension? commandsNext { get; private set; }
-    public Bot(IDiscordClientService discordClientService, ContractInteractivityConfigurationService interactivityConfigurationService,ICommandsNextConfigurationService commandsNextConfigurationService,IAuthorizationJson authorizationJson,IBot bot)
+    public Bot(IDiscordClientService discordClientService, ContractInteractivityConfigurationService interactivityConfigurationService,ICommandsNextConfigurationService commandsNextConfigurationService,IAuthorizationJson authorizationJson,IBot bot,IBotCar botCar)
     {
         _discordClientService = discordClientService;
         _interactivityConfigurationService = interactivityConfigurationService;
         _commandsNextConfigurationService = commandsNextConfigurationService;
-        _authorizationJson = authorizationJson;
         _bot = bot;
+        _botCar = botCar;
     }
 
     public async Task RunAsync()
     {
-        var clinet = await _discordClientService.GetDiscordClient(); 
+        var clinet = await _discordClientService.GetDiscordClient("config.json"); 
         var cmdConfig = await _commandsNextConfigurationService.GetCommandsConfiguration();
-        var configJson = await _authorizationJson.GetConfigJson();
 
         await _interactivityConfigurationService.SetInteracivityConfiguration(); 
      
@@ -41,7 +40,16 @@ public class Bot
         commandsNext.RegisterCommands<CommandDebestsa>();
 
         await clinet.ConnectAsync();
-        await _bot.BotRunner();
+
+        // await _bot.BotRunner();
+        // await _botCar.BotRunner();
+
+        List<Task> tasks = new List<Task>();
+        tasks.Add(Task.Run( () => _bot.BotRunner("config.json") ));
+        tasks.Add(Task.Run( () => _botCar.BotRunner("configCar.json")));
+
+        await Task.WhenAll(tasks);
+
         await Task.Delay(-1);
     }
 }

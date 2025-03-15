@@ -15,7 +15,7 @@ public class CommandsNextConfigurationService : ICommandsNextConfigurationServic
 
     public async Task<CommandsNextConfiguration> GetCommandsConfiguration()
     {
-        var json = await _authorizationJson.GetConfigJson();
+        var json = await _authorizationJson.GetConfigJson("config.json");
         CommandsNextConfiguration commandConfig = new()
         {
             StringPrefixes = new string[] { json.Prefix },

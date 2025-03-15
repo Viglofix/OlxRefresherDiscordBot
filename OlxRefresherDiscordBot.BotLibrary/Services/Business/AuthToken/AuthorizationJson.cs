@@ -5,11 +5,10 @@ using OlxRefresherDiscordBot.BotLibrary.Services.DataAccess.Json;
 namespace OlxRefresherDiscordBot.BotLibrary.Services.Business.AuthToken;
 public class AuthorizationJson : IAuthorizationJson
 {
-    private const string ConfigFileName = "config.json";
     private const string IOExceptionMessage = "Please set the appropriate token and Prefix";
-    public async Task<ConfigJson> GetConfigJson()
+    public async Task<ConfigJson> GetConfigJson(string configFileName)
     {
-        var path = new CurrentDirectoryManager(ConfigFileName).CurrentPath!;
+        var path = new CurrentDirectoryManager(configFileName).CurrentPath!;
         string? json = string.Empty;
 
         try

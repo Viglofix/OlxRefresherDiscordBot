@@ -12,7 +12,7 @@ public class InteractivityConfigurationService : ContractInteractivityConfigurat
     }
     public async Task SetInteracivityConfiguration()
     {
-        var clinet = await _discordClientService.GetDiscordClient();
+        var clinet = await _discordClientService.GetDiscordClient("config.json");
         clinet.UseInteractivity(new InteractivityConfiguration()
         {
             PollBehaviour = DSharpPlus.Interactivity.Enums.PollBehaviour.KeepEmojis,

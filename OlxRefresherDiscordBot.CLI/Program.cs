@@ -14,6 +14,7 @@ internal class Program
         services.AddTransient<ICommandsNextConfigurationService, CommandsNextConfigurationService>();
         services.AddTransient<ContractInteractivityConfigurationService, InteractivityConfigurationService>();
         services.AddTransient<IBot, LublinIphoneBot>();
+        services.AddTransient<IBotCar, LublinCarBot>();
 
         var serviceProvider = services.BuildServiceProvider();
 
@@ -21,7 +22,9 @@ internal class Program
             ,serviceProvider.GetService<ContractInteractivityConfigurationService>()!
             ,serviceProvider.GetService<ICommandsNextConfigurationService>()!
             ,serviceProvider.GetService<IAuthorizationJson>()!,
-            serviceProvider.GetService<IBot>()!);
+            serviceProvider.GetService<IBot>()!,
+            serviceProvider.GetService<IBotCar>()!
+            );
 
         await bot.RunAsync();
     }
