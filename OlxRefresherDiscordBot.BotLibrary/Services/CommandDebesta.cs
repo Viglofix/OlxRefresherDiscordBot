@@ -17,7 +17,7 @@ public class CommandDebestsa : BaseCommandModule {
 
         try
         {
-            var jsonContent = await JsonFileReadManager<ConfigJsonChannel>.GetJsonContent(path);
+            var jsonContent =  JsonFileReadManager.GetJsonContent<ConfigJson>(path);
             var deserialized = JsonSerializer.Deserialize<ConfigJsonChannel>(jsonContent);
             deserialized.Channel = number;
             var serializedAgain = JsonSerializer.Serialize(deserialized);
@@ -35,7 +35,7 @@ public class CommandDebestsa : BaseCommandModule {
 
         try
         {
-            var jsonContent = await JsonFileReadManager<ConfigJsonChannel>.GetJsonContent(path);
+            var jsonContent =  JsonFileReadManager.GetJsonContent<ConfigJson>(path);
             var deserialized = JsonSerializer.Deserialize<ConfigJsonChannel>(jsonContent);
             deserialized.Channel = number;
             var serializedAgain = JsonSerializer.Serialize(deserialized);

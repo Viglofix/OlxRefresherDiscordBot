@@ -13,9 +13,9 @@ public class CommandsNextConfigurationService : ICommandsNextConfigurationServic
         _discordClientService = discordClientService;
     }
 
-    public async Task<CommandsNextConfiguration> GetCommandsConfiguration()
+    public CommandsNextConfiguration GetCommandsConfiguration()
     {
-        var json = await _authorizationJson.GetConfigJson("config.json");
+        var json = _authorizationJson.GetConfigJson("config.json");
         CommandsNextConfiguration commandConfig = new()
         {
             StringPrefixes = new string[] { json.Prefix },

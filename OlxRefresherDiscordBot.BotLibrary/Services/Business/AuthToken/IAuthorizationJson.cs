@@ -3,5 +3,5 @@
 namespace OlxRefresherDiscordBot.BotLibrary.Services.Business.AuthToken;
     public interface IAuthorizationJson
     {
-        public Task<ConfigJson> GetConfigJson(string configFileName);
+        public ConfigJson GetConfigJson(string configFileName);
     }

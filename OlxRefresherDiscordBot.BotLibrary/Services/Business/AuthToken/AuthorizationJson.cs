@@ -6,14 +6,14 @@ namespace OlxRefresherDiscordBot.BotLibrary.Services.Business.AuthToken;
 public class AuthorizationJson : IAuthorizationJson
 {
     private const string IOExceptionMessage = "Please set the appropriate token and Prefix";
-    public async Task<ConfigJson> GetConfigJson(string configFileName)
+    public ConfigJson GetConfigJson(string configFileName)
     {
         var path = new CurrentDirectoryManager(configFileName).CurrentPath!;
         string? json = string.Empty;
 
         try
         {
-            json = await JsonFileReadManager<ConfigJson>.GetJsonContent(path);
+            json = JsonFileReadManager.GetJsonContent<ConfigJson>(path);
         }
         catch(IOException ex)
         {
