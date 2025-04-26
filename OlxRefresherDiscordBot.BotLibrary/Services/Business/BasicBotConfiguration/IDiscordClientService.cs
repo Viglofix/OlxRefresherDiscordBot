@@ -3,5 +3,5 @@
 namespace OlxRefresherDiscordBot.BotLibrary.Services.Business.BasicBotConfiguration;
     public interface IDiscordClientService
     {
-        public Task<DiscordClient> GetDiscordClient();
+        public DiscordClient GetDiscordClient(string configFileName);
     }

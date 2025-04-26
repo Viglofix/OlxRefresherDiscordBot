@@ -11,9 +11,9 @@ public class DiscordClientService : IDiscordClientService
         _authorizationJson = authorizationJson;
     }
 
-    public async Task<DiscordClient> GetDiscordClient()
+    public DiscordClient GetDiscordClient(string configFileName)
     {
-        var jsonConfig = await _authorizationJson.GetConfigJson();
+        var jsonConfig = _authorizationJson.GetConfigJson(configFileName);
         DiscordConfiguration configuration = new()
         {
             Token = jsonConfig.Token,

@@ -9,18 +9,18 @@ using DSharpPlus.Entities;
 using OlxRefresherDiscordBot.BotLibrary.Services.Business.RequestManager;
 
 namespace OlxRefresherDiscordBot.BotLibrary.Bots;
-public class LublinIphoneBot : IBot
+public class LublinCarBot : IBotCar
 {
-    private const string ConfigFileNameChannel = "configChannel.json";
-    private const string ConfigBotFileName = "configBot.json";
+    private const string ConfigFileNameChannel = "configChannelCar.json";
+    private const string ConfigBotFileName = "configBotCar.json";
     private const string WebshareFile = "proxies/webshare.json";
 
     private readonly IDiscordClientService _discordClientService;
     private readonly IProxyService _proxyService;
-    public LublinIphoneBot(IDiscordClientService discordClientService, IProxyService proxyService)
+    public LublinCarBot(IDiscordClientService discordClientService, IProxyService proxyService)
     {
         _discordClientService = discordClientService;
-        _proxyService = proxyService; 
+        _proxyService = proxyService;
     }
     public async Task BotRunner(string configFileName)
     {
@@ -33,8 +33,8 @@ public class LublinIphoneBot : IBot
         var jsonObj = JsonSerializer.Deserialize<ConfigJsonBot>(jsonContent);
 
         // Proxy uzyc inne gdy catch wystapi
-       // WebShareProxy proxyService = new WebShareProxy();
-       // proxyService?.AddProxies(WebshareFile);
+        // WebShareProxy proxyService = new WebShareProxy();
+        // proxyService?.AddProxies(WebshareFile);
 
         while (true)
         {
@@ -46,10 +46,11 @@ public class LublinIphoneBot : IBot
             await channelServiceRun.RunChannelValidator(channelId, pathChannel);
             // config Channel END
 
+
             IOfferModel obj = null!;
             try
             {
-                 obj = await new LublinIphoneRequest(_proxyService!, jsonObj!).GetResponseContent();
+                obj = await new LublinCarRequest(_proxyService!, jsonObj!).GetResponseContent();
             }
             catch (Exception ex)
             {
@@ -72,7 +73,7 @@ public class LublinIphoneBot : IBot
                     await JsonFileWriterManager.WriterJsonContent(path!, serialized);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }

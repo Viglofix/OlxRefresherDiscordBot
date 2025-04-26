@@ -12,14 +12,15 @@ public class RestClientService
             UseDefaultCredentials = false,
             Credentials = new NetworkCredential()
             {
-                UserName = "spg7j78vwo",
-                Password = "QSb4eGlPpko0b1td4+",
+                UserName = "hrqvdamh",
+                Password = "ehyya1uwj7yk",
             }
         };
 
         var options = new RestClientOptions()
         {
             Proxy = proxy,
+            AutomaticDecompression = DecompressionMethods.GZip
         };
         var restClient = new RestClient(options);
         return restClient;
